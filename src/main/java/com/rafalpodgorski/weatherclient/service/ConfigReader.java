@@ -11,30 +11,18 @@ import java.util.*;
 public class ConfigReader {
 
     public Set<String> readConfig() {
-
         Set<String> cities = new LinkedHashSet<>();
         String path = "./config.txt";
-        BufferedReader br = null;
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File(path));
-            br = new BufferedReader(new InputStreamReader(fileInputStream, StandardCharsets.UTF_8));
-            String line;
-            while ((line = br.readLine()) != null) {
-                cities.add(line);
+
+
+        try (FileInputStream fileInputStream = new FileInputStream(new File(path))) {
+            Scanner s = new Scanner(new InputStreamReader(fileInputStream, StandardCharsets.UTF_8));
+            while (s.hasNextLine()) {
+                cities.add(s.nextLine());
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
         return cities;
-
     }
 }
